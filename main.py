@@ -24,37 +24,39 @@ with open("input.txt", "r") as f_input:
         TOTAL = text.find("TOTAL")
         num = text[text.find('/td', TOTAL) + 1:text.find('/tr', TOTAL)]
 
-        a = num.replace('t', '')
-        b = a.replace('d', '')
-        c = b.replace('n', '')
-        e = c.replace('\\', '')
-        k = e.replace('/', '')
-        g = k.replace('<>', ' ')
-        ff = g.replace('TOTAL', '')
-        j = ff.replace('  ', ' ')
-        t = j.replace(',', '')
-        y = t.replace('>', '')
-        tt = y[:41]
+        # Clear the text of unnecessary characters
+        change_1 = num.replace('t', '')
+        change_2 = change_1.replace('d', '')
+        change_3 = change_2.replace('n', '')
+        change_4 = change_3.replace('\\', '')
+        change_5 = change_4.replace('/', '')
+        change_6 = change_5.replace('<>', ' ')
+        change_7 = change_6.replace('TOTAL', '')
+        change_8 = change_7.replace('  ', ' ')
+        change_10 = change_8.replace(',', '')
+        change_11 = change_10.replace('>', '')
+        new_text = change_11[:41]
 
+        # Choose the numbers we need from the resulting string
+        for char in range(10):
+            number = new_text[new_text.find(" ") + 1:new_text.find(" ", new_text.find(" ") + 2)]
+            new_text = new_text[len(number) + 1:]
 
-        for i in range(10):
-            qwe = tt[tt.find(" ") + 1:tt.find(" ", tt.find(" ") + 2)]
-            tt = tt[len(qwe) + 1:]
-
-            if i == 0:
-                comp = int(qwe)
-            if i == 1:
-                att = int(qwe)
-            if i == 3:
-                yds = int(qwe)
-            if i == 5:
-                td = int(qwe)
-            if i == 6:
-                INT = int(qwe)
+            if char == 0:
+                comp = int(number)
+            if char == 1:
+                att = int(number)
+            if char == 3:
+                yds = int(number)
+            if char == 5:
+                td = int(number)
+            if char == 6:
+                INT = int(number)
 
         rate = ((((comp / att - .3) * 5) +
                  ((yds / att - 3) * .25) + ((td / att) * 20) +
                  (2.375 - (INT / att * 25))) / 6) * 100
 
+        # write the resulting numbers to the output.txt file
         print('{:<20}{:<7}{:<7}{:<7}{:<7}{:<7}{:<7.2f}'.format(name, comp, att, yds, td, INT, rate), file=f_out)
 f_out.close()
