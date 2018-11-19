@@ -7,20 +7,18 @@ import urllib.request
 
 l = 0
 f_out = open("output.txt", "w")
-print('{:<20}{:<7}{:<7}{:<7}{:<7}{:<7}{:<7}'.format("Name", "COMP", "ATT", "YDS", "TD", "INT", "RATE"), file=f_out)
+print('{:<20}{:<7}{:<7}{:<7}{:<7}{:<7}{:<7}'.format(
+    "Name", "COMP", "ATT", "YDS", "TD", "INT", "RATE"), file=f_out)
 print("-"*60, file=f_out)
 with open("input.txt", "r") as f_input:
     f_text = f_input.readlines()
     for line in range(len(f_text)):
-
         url = f_text[line]
-
         f = urllib.request.urlopen(url)
         s = f.read()
         text = str(s)
         part_name = text.find("player-name")
         name = text[text.find('>', part_name) + 1:text.find('&', part_name)]
-
         TOTAL = text.find("TOTAL")
         num = text[text.find('/td', TOTAL) + 1:text.find('/tr', TOTAL)]
 
@@ -39,7 +37,8 @@ with open("input.txt", "r") as f_input:
 
         # Choose the numbers we need from the resulting string
         for char in range(10):
-            number = new_text[new_text.find(" ") + 1:new_text.find(" ", new_text.find(" ") + 2)]
+            number = new_text[new_text.find(" ") +
+                              1:new_text.find(" ", new_text.find(" ") + 2)]
             new_text = new_text[len(number) + 1:]
 
             if char == 0:
@@ -57,6 +56,7 @@ with open("input.txt", "r") as f_input:
                  ((yds / att - 3) * .25) + ((td / att) * 20) +
                  (2.375 - (INT / att * 25))) / 6) * 100
 
-        # write the resulting numbers to the output.txt file
-        print('{:<20}{:<7}{:<7}{:<7}{:<7}{:<7}{:<7.2f}'.format(name, comp, att, yds, td, INT, rate), file=f_out)
+        # Write the resulting numbers to the output.txt file
+        print('{:<20}{:<7}{:<7}{:<7}{:<7}{:<7}{:<7.2f}'.format(
+            name, comp, att, yds, td, INT, rate), file=f_out)
 f_out.close()
